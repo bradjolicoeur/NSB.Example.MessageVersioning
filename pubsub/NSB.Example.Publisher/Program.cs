@@ -1,5 +1,6 @@
 ﻿using NSB.Example.Contracs.Events;
 using NServiceBus;
+using NServiceBus.Persistence.NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,15 @@ namespace NSB.Example.Publisher
 
             while (true)
             {
-                endpointInstance.Publish<IExampleEvent>(
+                endpointInstance.Publish<IExampleEventV2>(
                         messageConstructor: message =>
                         {
                             message.Message = "Hello world: " + Guid.NewGuid().ToString();
-                            //message.NewProperty = "Populated with: " + Guid.NewGuid().ToString();
+                            message.NewProperty = "Populated with: " + Guid.NewGuid().ToString();
                         })
                  .GetAwaiter().GetResult();
+
+                Console.WriteLine("Published Event");
 
                 // Sleep as long as you need.
                 Thread.Sleep(1000);
@@ -37,8 +40,9 @@ namespace NSB.Example.Publisher
         {
 
             var endpointConfiguration = new EndpointConfiguration("NSB.Example.Publisher");
-            endpointConfiguration.UsePersistence<LearningPersistence>();
-            var transport = endpointConfiguration.UseTransport<LearningTransport>();
+            var persistence = endpointConfiguration.UsePersistence<NHibernatePersistence>();
+            var transport = endpointConfiguration.UseTransport<MsmqTransport>();
+            endpointConfiguration.SendFailedMessagesTo("error");
 
             var conventions = endpointConfiguration.Conventions();
             conventions.DefiningEventsAs(
