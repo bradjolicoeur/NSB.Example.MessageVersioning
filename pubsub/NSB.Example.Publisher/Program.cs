@@ -21,11 +21,11 @@ namespace NSB.Example.Publisher
 
             while (true)
             {
-                endpointInstance.Publish<IExampleEventV2>(
+                endpointInstance.Publish<IExampleEvent>(
                         messageConstructor: message =>
                         {
                             message.Message = "Hello world: " + Guid.NewGuid().ToString();
-                            message.NewProperty = "Populated with: " + Guid.NewGuid().ToString();
+                            //message.NewProperty = "Populated with: " + Guid.NewGuid().ToString();
                         })
                  .GetAwaiter().GetResult();
 
