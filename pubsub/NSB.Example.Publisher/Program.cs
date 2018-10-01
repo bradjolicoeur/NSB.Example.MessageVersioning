@@ -21,14 +21,16 @@ namespace NSB.Example.Publisher
 
             while (true)
             {
-                endpointInstance.Publish<IExampleEvent>(
+                var id = Guid.NewGuid().ToString();
+                endpointInstance.Publish<IExampleEventV2>(
                         messageConstructor: message =>
                         {
-                            message.Message = "Hello world: " + Guid.NewGuid().ToString();
+                            message.Message = "message: " + id;
+                            message.NewProperty = "New Property: " + Guid.NewGuid().ToString();
                         })
                  .GetAwaiter().GetResult();
 
-                Console.WriteLine("Published Event");
+                Console.WriteLine("Published Event " + id);
 
                 // Sleep as long as you need.
                 Thread.Sleep(1000);
