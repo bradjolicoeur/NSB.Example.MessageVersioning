@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NSB.Example.Contracs.Events
+namespace NSB.Example.Contracts.Events
 {
     public interface IExampleEventV2 : IExampleEvent
     {
