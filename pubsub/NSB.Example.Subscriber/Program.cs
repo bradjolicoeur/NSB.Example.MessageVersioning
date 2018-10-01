@@ -1,4 +1,4 @@
-﻿using NSB.Example.Contracs.Events;
+﻿using NSB.Example.Contracts.Events;
 using NServiceBus;
 using System;
 using System.Collections.Generic;
@@ -27,12 +27,9 @@ namespace NSB.Example.Subscriber
         {
 
             var endpointConfiguration = new EndpointConfiguration("NSB.Example.Subscriber");
-            endpointConfiguration.UsePersistence<NHibernatePersistence>();
-            var transport = endpointConfiguration.UseTransport<MsmqTransport>();
+            endpointConfiguration.UsePersistence<LearningPersistence>();
+            var transport = endpointConfiguration.UseTransport<LearningTransport>();
             endpointConfiguration.SendFailedMessagesTo("error");
-
-            var routing = transport.Routing();
-            routing.RegisterPublisher(typeof(IExampleEvent), "NSB.Example.Publisher");
 
             var conventions = endpointConfiguration.Conventions();
             conventions.DefiningEventsAs(

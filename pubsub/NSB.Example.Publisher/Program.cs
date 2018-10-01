@@ -1,4 +1,4 @@
-﻿using NSB.Example.Contracs.Events;
+﻿using NSB.Example.Contracts.Events;
 using NServiceBus;
 using NServiceBus.Persistence.NHibernate;
 using System;
@@ -25,7 +25,6 @@ namespace NSB.Example.Publisher
                         messageConstructor: message =>
                         {
                             message.Message = "Hello world: " + Guid.NewGuid().ToString();
-                            //message.NewProperty = "Populated with: " + Guid.NewGuid().ToString();
                         })
                  .GetAwaiter().GetResult();
 
@@ -40,8 +39,8 @@ namespace NSB.Example.Publisher
         {
 
             var endpointConfiguration = new EndpointConfiguration("NSB.Example.Publisher");
-            var persistence = endpointConfiguration.UsePersistence<NHibernatePersistence>();
-            var transport = endpointConfiguration.UseTransport<MsmqTransport>();
+            var persistence = endpointConfiguration.UsePersistence<LearningPersistence>();
+            var transport = endpointConfiguration.UseTransport<LearningTransport>();
             endpointConfiguration.SendFailedMessagesTo("error");
 
             var conventions = endpointConfiguration.Conventions();

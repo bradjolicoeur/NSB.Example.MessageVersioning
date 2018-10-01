@@ -1,4 +1,4 @@
-﻿using NSB.Example.Contracs.Events;
+﻿using NSB.Example.Contracts.Events;
 using NServiceBus;
 using System;
 using System.Threading.Tasks;
