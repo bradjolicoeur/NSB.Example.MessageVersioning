@@ -1,12 +1,7 @@
 ﻿using NSB.Example.Contracts.Events;
 using NServiceBus;
-using NServiceBus.Persistence.NHibernate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NSB.Example.Publisher
 {
@@ -14,6 +9,8 @@ namespace NSB.Example.Publisher
     {
         static void Main()
         {
+            Console.Title = "Publisher";
+
             EndpointConfiguration endpointConfiguration = ConfigureNSB();
 
             var endpointInstance = Endpoint.Start(endpointConfiguration)
@@ -21,14 +18,15 @@ namespace NSB.Example.Publisher
 
             while (true)
             {
+                var id = Guid.NewGuid().ToString();
                 endpointInstance.Publish<IExampleEvent>(
                         messageConstructor: message =>
                         {
-                            message.Message = "Hello world: " + Guid.NewGuid().ToString();
+                            message.Message = "message: " + id;
                         })
                  .GetAwaiter().GetResult();
 
-                Console.WriteLine("Published Event");
+                Console.WriteLine("Published Event " + id);
 
                 // Sleep as long as you need.
                 Thread.Sleep(1000);

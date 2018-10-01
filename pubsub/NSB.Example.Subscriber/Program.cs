@@ -1,10 +1,5 @@
-﻿using NSB.Example.Contracts.Events;
-using NServiceBus;
+﻿using NServiceBus;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NSB.Example.Subscriber
 {
@@ -12,6 +7,8 @@ namespace NSB.Example.Subscriber
     {
         static void Main()
         {
+            Console.Title = "Subscriber";
+
             EndpointConfiguration endpointConfiguration = ConfigureNSB();
 
             var endpointInstance = Endpoint.Start(endpointConfiguration)
