@@ -1,0 +1,33 @@
+
+--v2 message
+    public interface IExampleEventV2 : IExampleEvent
+    {
+        string NewProperty { get; set; }
+    }
+
+
+--v2 handler
+ public class ExampleMessageHandlerV2 : IHandleMessages<IExampleEventV2>
+    {
+        public Task Handle(IExampleEventV2 message, IMessageHandlerContext context)
+        {
+            Console.WriteLine(message.Message + " " + message.NewProperty);
+
+            return Task.CompletedTask;
+        }
+    }
+
+--v2 old message handler
+[Obsolete("This handler should be removed in next version")]
+    public class ExampleMessageHandler : IHandleMessages<IExampleEvent>
+    {
+        public Task Handle(IExampleEvent message, IMessageHandlerContext context)
+        {
+            if (message is IExampleEventV2)
+                return Task.CompletedTask; ;
+
+            Console.WriteLine(message.Message);
+
+            return Task.CompletedTask;
+        }
+    }
