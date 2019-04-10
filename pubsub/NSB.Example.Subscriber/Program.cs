@@ -14,10 +14,7 @@ namespace NSB.Example.Subscriber
             var endpointInstance = Endpoint.Start(endpointConfiguration)
               .GetAwaiter().GetResult();
 
-            do
-            {
-
-            } while (true);
+            Console.Read();
         }
 
         private static EndpointConfiguration ConfigureNSB()
